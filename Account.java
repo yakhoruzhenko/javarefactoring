@@ -10,7 +10,7 @@ public class Account {
 
     private String currency;
 
-    private Customer customer;
+    private BaseCustomer customer;
 
     public Account(AccountType type, int daysOverdrawn) {
         super();
@@ -65,11 +65,11 @@ public class Account {
         return money;
     }
 
-    public Customer getCustomer() {
+    public BaseCustomer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(BaseCustomer customer) {
         this.customer = customer;
     }
 
