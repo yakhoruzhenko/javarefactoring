@@ -101,6 +101,30 @@ public class AccountTest {
         assertThat(account.getMoney(), is(-20.25));
     }
 
+    @Test
+    public void testPrintAccountNormal() throws Exception {
+        BaseCustomer customer = getPersonWithAccount(false);
+        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Money: 34.0, Account type: normal"));
+    }
+
+    @Test
+    public void testPrintAccountPremium() throws Exception {
+        BaseCustomer customer = getPersonWithAccount(true);
+        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Money: 34.0, Account type: premium"));
+    }
+
+    @Test
+    public void testPrintDaysOverdrawn() throws Exception {
+        CustomerPerson customer = getPersonWithAccount(false);
+        assertThat(customer.account.printDaysOverdrawn(), is("danix dan Account: IBAN: RO023INGB434321431241, Days Overdrawn: 9"));
+    }
+
+    @Test
+    public void testPrintMoney() throws Exception {
+        CustomerPerson customer = getPersonWithAccount(false);
+        assertThat(customer.account.printMoney(), is("danix dan Account: IBAN: RO023INGB434321431241, Money: 34.0"));
+    }
+
     private Account getNormalAccount() {
         return new Account(9, false);
     }
@@ -123,9 +147,19 @@ public class AccountTest {
         return customer;
     }
 
+    private CustomerPerson getPersonWithAccount(boolean premium) {
+        Account account = new Account(9, premium);
+        CustomerPerson customer = getPersonCustomer(account);
+        account.setIban("RO023INGB434321431241");
+        account.setMoney(34.0);
+        account.setCurrency("EUR");
+        return customer;
+    }
+
     private CustomerPerson getPersonCustomer(Account account) {
         CustomerPerson customer = new CustomerPerson("danix", "dan", "dan@mail.com", CustomerType.PERSON, account);
         account.setCustomer(customer);
         return customer;
     }
+
 }

@@ -77,7 +77,7 @@ public class Account {
         this.currency = currency;
     }
 
-    public String printCustomerDaysOverdrawn() {
+    public String printDaysOverdrawn() {
         String accountDescription = "Account: IBAN: " + getIban() + ", Days Overdrawn: " + getDaysOverdrawn();
         if (customer instanceof CustomerPerson customerPerson) {
             return customerPerson.getFullName() + accountDescription;
@@ -86,7 +86,7 @@ public class Account {
         }
     }
 
-    public String printCustomerMoney() {
+    public String printMoney() {
         String accountDescription = "";
         accountDescription += "Account: IBAN: " + getIban() + ", Money: " + getMoney();
         if (customer instanceof CustomerPerson customerPerson) {
@@ -136,4 +136,9 @@ public class Account {
             setMoney(baseWithdrawCalculation);
         }
     }
+
+    public String printAccount() {
+        return "Account: IBAN: " + getIban() + ", Money: " + getMoney() + ", Account type: " + getType();
+    }
+
 }

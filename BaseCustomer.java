@@ -28,11 +28,6 @@ public class BaseCustomer {
         this.customerType = customerType;
     }
 
-    public String printCustomerAccount() {
-        return "Account: IBAN: " + account.getIban() + ", Money: "
-                + account.getMoney() + ", Account type: " + account.getType();
-    }
-
     public String printCustomer() {
         return getName() + " " + getEmail();
     }
