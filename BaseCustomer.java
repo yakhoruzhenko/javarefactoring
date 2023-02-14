@@ -41,4 +41,8 @@ public class BaseCustomer {
             throw new RuntimeException("Can't extract withdraw " + currency);
         }
     }
+
+    public String printCustomer() {
+        return getName() + " " + getEmail();
+    }
 }
