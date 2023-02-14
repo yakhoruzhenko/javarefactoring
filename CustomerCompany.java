@@ -12,10 +12,10 @@ public class CustomerCompany extends BaseCustomer {
         double overdraftFee = sum * account.overdraftFee();
         double baseWithdrawCalculation = account.getMoney() - sum;
 
-        if (account.getMoney() < OVERDRAFT_THRESHOLD) {
+        if (account.getMoney() < overdraftThreshold) {
             if (account.getType().isPremium()) {
                 account.setMoney(baseWithdrawCalculation - overdraftFee * companyOverdraftDiscount
-                        * PREMIUM_ACCOUNT_DISCOUNT);
+                        * premiumAccountDiscount);
             } else {
                 account.setMoney(baseWithdrawCalculation - overdraftFee * companyOverdraftDiscount );
             }

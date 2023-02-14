@@ -11,7 +11,7 @@ public class CustomerPerson extends BaseCustomer {
 
     public void withdraw(double sum, String currency) {
         checkCurrency(currency);
-        if (account.getMoney() < OVERDRAFT_THRESHOLD) {
+        if (account.getMoney() < overdraftThreshold) {
             account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
         } else {
             account.setMoney(account.getMoney() - sum);

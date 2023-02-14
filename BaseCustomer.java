@@ -1,11 +1,11 @@
 public class BaseCustomer {
-    public static final int OVERDRAFT_THRESHOLD = 0;
-    public static final double PREMIUM_ACCOUNT_DISCOUNT = 0.5;
     protected String name;
     protected String email;
     protected CustomerType customerType;
     protected Account account;
     protected double companyOverdraftDiscount = 1;
+    protected double premiumAccountDiscount = 0.5;
+    protected double overdraftThreshold = 0;
 
     public String getName() {
         return name;
