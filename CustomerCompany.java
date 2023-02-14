@@ -9,19 +9,18 @@ public class CustomerCompany extends BaseCustomer {
 
     public void withdraw(double sum, String currency) {
         checkCurrency(currency);
-        if (account.getType().isPremium()) {
-            if (account.getMoney() < OVERDRAFT_THRESHOLD) {
-                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyOverdraftDiscount
+        double overdraftFee = sum * account.overdraftFee();
+        double baseWithdrawCalculation = account.getMoney() - sum;
+
+        if (account.getMoney() < OVERDRAFT_THRESHOLD) {
+            if (account.getType().isPremium()) {
+                account.setMoney(baseWithdrawCalculation - overdraftFee * companyOverdraftDiscount
                         * PREMIUM_ACCOUNT_DISCOUNT);
             } else {
-                account.setMoney(account.getMoney() - sum);
+                account.setMoney(baseWithdrawCalculation - overdraftFee * companyOverdraftDiscount );
             }
         } else {
-            if (account.getMoney() < OVERDRAFT_THRESHOLD) {
-                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyOverdraftDiscount);
-            } else {
-                account.setMoney(account.getMoney() - sum);
-            }
+            account.setMoney(baseWithdrawCalculation);
         }
     }
 }
