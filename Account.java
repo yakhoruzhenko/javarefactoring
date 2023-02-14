@@ -88,4 +88,23 @@ public class Account {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public String printCustomerDaysOverdrawn() {
+        String accountDescription = "Account: IBAN: " + getIban() + ", Days Overdrawn: " + getDaysOverdrawn();
+        if (customer instanceof CustomerPerson customerPerson) {
+            return customerPerson.getFullName() + accountDescription;
+        } else {
+            return customer.getName() + accountDescription;
+        }
+    }
+
+    public String printCustomerMoney() {
+        String accountDescription = "";
+        accountDescription += "Account: IBAN: " + getIban() + ", Money: " + getMoney();
+        if (customer instanceof CustomerPerson customerPerson) {
+            return customerPerson.getFullName() + accountDescription;
+        } else {
+            return customer.getName() + accountDescription;
+        }
+    }
 }
