@@ -1,6 +1,5 @@
 public class CustomerPerson extends BaseCustomer {
-
-    private String surname;
+    private final String surname;
 
     public CustomerPerson(String name, String surname, String email, CustomerType customerType, Account account) {
         this.name = name;
@@ -12,7 +11,7 @@ public class CustomerPerson extends BaseCustomer {
 
     public void withdraw(double sum, String currency) {
         checkCurrency(currency);
-        if (account.getMoney() < 0) {
+        if (account.getMoney() < OVERDRAFT_THRESHOLD) {
             account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
         } else {
             account.setMoney(account.getMoney() - sum);

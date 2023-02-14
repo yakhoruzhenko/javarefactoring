@@ -10,17 +10,14 @@ public class CustomerCompany extends BaseCustomer {
     public void withdraw(double sum, String currency) {
         checkCurrency(currency);
         if (account.getType().isPremium()) {
-            // we are in overdraft
-            if (account.getMoney() < 0) {
-                // 50 percent discount for overdraft for premium account
-                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyOverdraftDiscount / 2);
+            if (account.getMoney() < OVERDRAFT_THRESHOLD) {
+                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyOverdraftDiscount
+                        * PREMIUM_ACCOUNT_DISCOUNT);
             } else {
                 account.setMoney(account.getMoney() - sum);
             }
         } else {
-            // we are in overdraft
-            if (account.getMoney() < 0) {
-                // no discount for overdraft for not premium account
+            if (account.getMoney() < OVERDRAFT_THRESHOLD) {
                 account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyOverdraftDiscount);
             } else {
                 account.setMoney(account.getMoney() - sum);
