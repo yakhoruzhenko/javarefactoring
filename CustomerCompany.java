@@ -8,9 +8,7 @@ public class CustomerCompany extends BaseCustomer {
     }
 
     public void withdraw(double sum, String currency) {
-        if (!account.getCurrency().equals(currency)) {
-            throw new RuntimeException("Can't extract withdraw " + currency);
-        }
+        checkCurrency(currency);
         if (account.getType().isPremium()) {
             switch (customerType) {
                 case COMPANY:

@@ -33,4 +33,10 @@ public class BaseCustomer {
         return "Account: IBAN: " + account.getIban() + ", Money: "
                 + account.getMoney() + ", Account type: " + account.getType();
     }
+
+    public void checkCurrency(String currency) {
+        if (!account.getCurrency().equals(currency)) {
+            throw new RuntimeException("Can't extract withdraw " + currency);
+        }
+    }
 }
