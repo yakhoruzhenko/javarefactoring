@@ -12,20 +12,10 @@ public class CustomerPerson extends BaseCustomer {
 
     public void withdraw(double sum, String currency) {
         checkCurrency(currency);
-        if (account.getType().isPremium()) {
-            // we are in overdraft
-            if (account.getMoney() < 0) {
-                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
-            } else {
-                account.setMoney(account.getMoney() - sum);
-            }
+        if (account.getMoney() < 0) {
+            account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
         } else {
-            // we are in overdraft
-            if (account.getMoney() < 0) {
-                account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
-            } else {
-                account.setMoney(account.getMoney() - sum);
-            }
+            account.setMoney(account.getMoney() - sum);
         }
     }
 
