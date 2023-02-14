@@ -9,15 +9,6 @@ public class CustomerPerson extends BaseCustomer {
         this.account = account;
     }
 
-    public void withdraw(double sum, String currency) {
-        checkCurrency(currency);
-        if (account.getMoney() < overdraftThreshold) {
-            account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee());
-        } else {
-            account.setMoney(account.getMoney() - sum);
-        }
-    }
-
     public String getFullName() {
         return name + " " + surname + " ";
     }

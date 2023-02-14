@@ -5,6 +5,8 @@ public class Account {
     private String currency;
     private BaseCustomer customer;
     private boolean premium;
+    protected double premiumAccountDiscount = 0.5;
+    protected double overdraftThreshold = 0;
 
     public Account(int daysOverdrawn, boolean premium) {
         super();
@@ -100,5 +102,38 @@ public class Account {
 
     public String getType() {
         return premium ? "premium" : "normal";
+    }
+
+    public void checkCurrency(String currency) {
+        if (!getCurrency().equals(currency)) {
+            throw new RuntimeException("Can't extract withdraw " + currency);
+        }
+    }
+
+    public void withdrawPerson(double sum, String currency) {
+        checkCurrency(currency);
+        double baseWithdrawCalculation = getMoney() - sum;
+        if (getMoney() < overdraftThreshold) {
+            setMoney(baseWithdrawCalculation - sum * overdraftFee());
+        } else {
+            setMoney(baseWithdrawCalculation);
+        }
+    }
+
+    public void withdrawCompany(double sum, String currency) {
+        checkCurrency(currency);
+        double baseWithdrawCalculation = getMoney() - sum;
+        double overdraftFee = sum * overdraftFee();
+        CustomerCompany customerCompany = (CustomerCompany) customer;
+        if (getMoney() < overdraftThreshold) {
+            if (isPremium()) {
+                setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount
+                        * premiumAccountDiscount);
+            } else {
+                setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount );
+            }
+        } else {
+            setMoney(baseWithdrawCalculation);
+        }
     }
 }

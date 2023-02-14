@@ -3,9 +3,6 @@ public class BaseCustomer {
     protected String email;
     protected CustomerType customerType;
     protected Account account;
-    protected double companyOverdraftDiscount = 1;
-    protected double premiumAccountDiscount = 0.5;
-    protected double overdraftThreshold = 0;
 
     public String getName() {
         return name;
@@ -34,12 +31,6 @@ public class BaseCustomer {
     public String printCustomerAccount() {
         return "Account: IBAN: " + account.getIban() + ", Money: "
                 + account.getMoney() + ", Account type: " + account.getType();
-    }
-
-    public void checkCurrency(String currency) {
-        if (!account.getCurrency().equals(currency)) {
-            throw new RuntimeException("Can't extract withdraw " + currency);
-        }
     }
 
     public String printCustomer() {

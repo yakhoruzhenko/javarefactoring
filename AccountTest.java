@@ -42,6 +42,6 @@ public class AccountTest {
     }
 
     private Account getPremiumAccount(int daysOverdrawn) {
-        return new Account(9, true);
+        return new Account(daysOverdrawn, true);
     }
 }
