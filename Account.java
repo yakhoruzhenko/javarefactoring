@@ -1,21 +1,15 @@
 public class Account {
-
     private String iban;
-
-    private AccountType type;
-
     private int daysOverdrawn;
-
     private double money;
-
     private String currency;
-
     private BaseCustomer customer;
+    private boolean premium;
 
-    public Account(AccountType type, int daysOverdrawn) {
+    public Account(int daysOverdrawn, boolean premium) {
         super();
-        this.type = type;
         this.daysOverdrawn = daysOverdrawn;
+        this.premium = premium;
     }
 
     public double bankcharge() {
@@ -27,7 +21,7 @@ public class Account {
     }
 
     private double overdraftCharge() {
-        if (type.isPremium()) {
+        if (isPremium()) {
             double result = 10;
             if (getDaysOverdrawn() > 7)
                 result += (getDaysOverdrawn() - 7) * 1.0;
@@ -37,7 +31,7 @@ public class Account {
     }
 
     public double overdraftFee() {
-        if (type.isPremium()) {
+        if (isPremium()) {
             return 0.10;
         } else {
             return 0.20;
@@ -73,10 +67,6 @@ public class Account {
         this.customer = customer;
     }
 
-    public AccountType getType() {
-        return type;
-    }
-
     public String getCurrency() {
         return currency;
     }
@@ -102,5 +92,13 @@ public class Account {
         } else {
             return customer.getName() + accountDescription;
         }
+    }
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public String getType() {
+        return premium ? "premium" : "normal";
     }
 }

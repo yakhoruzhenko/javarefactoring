@@ -94,8 +94,7 @@ public class CustomerTest {
     }
 
     private CustomerPerson getPersonWithAccount(boolean premium) {
-        AccountType accountType = new AccountType(premium);
-        Account account = new Account(accountType, 9);
+        Account account = new Account(9, premium);
         CustomerPerson customer = getPersonCustomer(account);
         account.setIban("RO023INGB434321431241");
         account.setMoney(34.0);
@@ -104,8 +103,7 @@ public class CustomerTest {
     }
 
     private Account getAccountByTypeAndMoney(boolean premium, double money) {
-        AccountType accountType = new AccountType(premium);
-        Account account = new Account(accountType, 9);
+        Account account = new Account(9, premium);
         account.setIban("RO023INGB434321431241");
         account.setMoney(money);
         account.setCurrency("EUR");
