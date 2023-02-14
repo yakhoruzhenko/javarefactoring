@@ -42,7 +42,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(false, 34.0);
         CustomerPerson customer = getPersonCustomer(account);
         account.withdrawPerson(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        assertThat(account.getBalance().getMoney(), is(24.0));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(false, -10.0);
         CustomerPerson customer = getPersonCustomer(account);
         account.withdrawPerson(10, "EUR");
-        assertThat(account.getMoney(), is(-22.0));
+        assertThat(account.getBalance().getMoney(), is(-22.0));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(true, 34.0);
         CustomerPerson customer = getPersonCustomer(account);
         account.withdrawPerson(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        assertThat(account.getBalance().getMoney(), is(24.0));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(true, -10.0);
         CustomerPerson customer = getPersonCustomer(account);
         account.withdrawPerson(10, "EUR");
-        assertThat(account.getMoney(), is(-21.0));
+        assertThat(account.getBalance().getMoney(), is(-21.0));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(false, 34);
         CustomerCompany customer = getCompanyCustomer(account);
         account.withdrawCompany(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        assertThat(account.getBalance().getMoney(), is(24.0));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(false, -10);
         CustomerCompany customer = getCompanyCustomer(account);
         account.withdrawCompany(10, "EUR");
-        assertThat(account.getMoney(), is(-21.0));
+        assertThat(account.getBalance().getMoney(), is(-21.0));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(true, 34);
         CustomerCompany customer = getCompanyCustomer(account);
         account.withdrawCompany(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        assertThat(account.getBalance().getMoney(), is(24.0));
     }
 
     @Test
@@ -98,19 +98,19 @@ public class AccountTest {
         Account account = getAccountByTypeAndMoney(true, -10);
         CustomerCompany customer = getCompanyCustomer(account);
         account.withdrawCompany(10, "EUR");
-        assertThat(account.getMoney(), is(-20.25));
+        assertThat(account.getBalance().getMoney(), is(-20.25));
     }
 
     @Test
     public void testPrintAccountNormal() throws Exception {
         BaseCustomer customer = getPersonWithAccount(false);
-        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Money: 34.0, Account type: normal"));
+        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Balance: 34.0, Account type: normal"));
     }
 
     @Test
     public void testPrintAccountPremium() throws Exception {
         BaseCustomer customer = getPersonWithAccount(true);
-        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Money: 34.0, Account type: premium"));
+        assertThat(customer.account.printAccount(), is("Account: IBAN: RO023INGB434321431241, Balance: 34.0, Account type: premium"));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class AccountTest {
     @Test
     public void testPrintMoney() throws Exception {
         CustomerPerson customer = getPersonWithAccount(false);
-        assertThat(customer.account.printMoney(), is("danix dan Account: IBAN: RO023INGB434321431241, Money: 34.0"));
+        assertThat(customer.account.printMoney(), is("danix dan Account: IBAN: RO023INGB434321431241, Balance: 34.0"));
     }
 
     private Account getNormalAccount() {
@@ -136,8 +136,7 @@ public class AccountTest {
     private Account getAccountByTypeAndMoney(boolean premium, double money) {
         Account account = new Account(9, premium);
         account.setIban("RO023INGB434321431241");
-        account.setMoney(money);
-        account.setCurrency("EUR");
+        account.setBalance(money, "EUR");
         return account;
     }
 
@@ -151,8 +150,7 @@ public class AccountTest {
         Account account = new Account(9, premium);
         CustomerPerson customer = getPersonCustomer(account);
         account.setIban("RO023INGB434321431241");
-        account.setMoney(34.0);
-        account.setCurrency("EUR");
+        account.setBalance(34.0, "EUR");
         return customer;
     }
 

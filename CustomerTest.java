@@ -20,8 +20,7 @@ public class CustomerTest {
         Account account = new Account(9, premium);
         CustomerPerson customer = getPersonCustomer(account);
         account.setIban("RO023INGB434321431241");
-        account.setMoney(34.0);
-        account.setCurrency("EUR");
+        account.setBalance(34.0, "EUR");
         return customer;
     }
 

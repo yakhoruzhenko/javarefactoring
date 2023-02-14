@@ -1,12 +1,12 @@
 public class Account {
     private String iban;
     private int daysOverdrawn;
-    private double money;
-    private String currency;
     private BaseCustomer customer;
     private boolean premium;
-    protected double premiumAccountDiscount = 0.5;
-    protected double overdraftThreshold = 0;
+    private double premiumAccountDiscount = 0.5;
+    private double overdraftThreshold = 0;
+    private Balance balance;
+
 
     public Account(int daysOverdrawn, boolean premium) {
         super();
@@ -20,6 +20,14 @@ public class Account {
         result += overdraftCharge();
 
         return result;
+    }
+
+    public Balance getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double money, String currency) {
+        this.balance = new Balance(money, currency);
     }
 
     private double overdraftCharge() {
@@ -53,28 +61,12 @@ public class Account {
         this.iban = iban;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
     public BaseCustomer getCustomer() {
         return customer;
     }
 
     public void setCustomer(BaseCustomer customer) {
         this.customer = customer;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String printDaysOverdrawn() {
@@ -88,7 +80,7 @@ public class Account {
 
     public String printMoney() {
         String accountDescription = "";
-        accountDescription += "Account: IBAN: " + getIban() + ", Money: " + getMoney();
+        accountDescription += "Account: IBAN: " + getIban() + ", Balance: " + balance.getMoney();
         if (customer instanceof CustomerPerson customerPerson) {
             return customerPerson.getFullName() + accountDescription;
         } else {
@@ -105,40 +97,40 @@ public class Account {
     }
 
     public void checkCurrency(String currency) {
-        if (!getCurrency().equals(currency)) {
+        if (!balance.getCurrency().equals(currency)) {
             throw new RuntimeException("Can't extract withdraw " + currency);
         }
     }
 
     public void withdrawPerson(double sum, String currency) {
         checkCurrency(currency);
-        double baseWithdrawCalculation = getMoney() - sum;
-        if (getMoney() < overdraftThreshold) {
-            setMoney(baseWithdrawCalculation - sum * overdraftFee());
+        double baseWithdrawCalculation = balance.getMoney() - sum;
+        if (balance.getMoney() < overdraftThreshold) {
+            balance.setMoney(baseWithdrawCalculation - sum * overdraftFee());
         } else {
-            setMoney(baseWithdrawCalculation);
+            balance.setMoney(baseWithdrawCalculation);
         }
     }
 
     public void withdrawCompany(double sum, String currency) {
         checkCurrency(currency);
-        double baseWithdrawCalculation = getMoney() - sum;
+        double baseWithdrawCalculation = balance.getMoney() - sum;
         double overdraftFee = sum * overdraftFee();
         CustomerCompany customerCompany = (CustomerCompany) customer;
-        if (getMoney() < overdraftThreshold) {
+        if (balance.getMoney() < overdraftThreshold) {
             if (isPremium()) {
-                setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount
+                balance.setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount
                         * premiumAccountDiscount);
             } else {
-                setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount );
+                balance.setMoney(baseWithdrawCalculation - overdraftFee * customerCompany.companyOverdraftDiscount );
             }
         } else {
-            setMoney(baseWithdrawCalculation);
+            balance.setMoney(baseWithdrawCalculation);
         }
     }
 
     public String printAccount() {
-        return "Account: IBAN: " + getIban() + ", Money: " + getMoney() + ", Account type: " + getType();
+        return "Account: IBAN: " + getIban() + ", Balance: " + balance.getMoney() + ", Account type: " + getType();
     }
 
 }
